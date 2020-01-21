@@ -1,0 +1,143 @@
+<html>
+
+<head>
+	<title>grid</title>
+
+	<style>
+		#canvas {
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			position: absolute;
+		}
+		#canvas:hover {
+			cursor: pointer;
+		}
+	</style>
+</head>
+
+<body>
+	<canvas id="canvas" width="390" height="390"></canvas>
+</body>
+
+<script>
+	var canvas = document.getElementById("canvas");
+
+	var c = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+	c.size = canvas.width / 3;
+	c.color = 'gray';
+	c.hover = 'lightblue';
+	c.selected = 'lightblue';
+
+	var cstate = {
+		1: false,
+		2: false,
+		3: false,
+		4: false,
+		5: false,
+		6: false,
+		7: false,
+		8: false,
+		9: false
+	}
+
+	var pos = {};
+
+	function draw() {
+		let step = 0;
+		let x, y;
+
+		for (let i = 0; i < 9; i++) {
+			c[i] = canvas.getContext("2d");
+
+			if ( (i % 3 === 0) && (i !== 0) ) { step++ }
+			x = i*c.size-canvas.width*step;
+			y = step*c.size;
+
+			c[i].fillStyle = c.color;
+
+			// if hover
+			if ((pos.x >= x) &&
+				(pos.x <= x+c.size) &&
+				(pos.y >= y) &&
+				(pos.y <= y+c.size))
+			{
+				c[i].fillStyle = c.hover
+			} else if (cstate[i]) {
+				c[i].fillStyle = c.selected
+			}
+
+			c[i].fillRect(x, y, c.size, c.size);
+		}
+	}
+
+	function animate() {
+		requestAnimationFrame(animate);
+
+		canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
+
+		input();
+
+		draw();
+	}
+
+	var rect = canvas.getBoundingClientRect();
+	function getCursorPos(e) {
+		pos.x = event.clientX - rect.left;
+		pos.y = event.clientY - rect.top + 0.5;
+	}
+
+	function click(e) {
+		let step = 0;
+		let x, y;
+
+		for (let i = 0; i < 9; i++) {
+			if ( (i % 3 === 0) && (i !== 0) ) { step++ }
+			x = i*c.size-canvas.width*step;
+			y = step*c.size;
+
+			if ( (pos.x >= x) &&
+				(pos.x <= x+c.size) &&
+				(pos.y >= y) &&
+				(pos.y <= y+c.size) )
+			{
+				cstate[i] = !cstate[i]
+			}
+		}
+
+		draw();
+	}
+
+	function keypress(e) {
+		let key = e.keyCode;
+
+		if (key == 36 || key == 49 || key == 103) { cstate[0] = !cstate[0] }
+		if (key == 38 || key == 50 || key == 104) { cstate[1] = !cstate[1] }
+		if (key == 33 || key == 51 || key == 105) { cstate[2] = !cstate[2] }
+		if (key == 37 || key == 52 || key == 100) { cstate[3] = !cstate[3] }
+		if (key == 12 || key == 53 || key == 101) { cstate[4] = !cstate[4] }
+		if (key == 39 || key == 54 || key == 102) { cstate[5] = !cstate[5] }
+		if (key == 35 || key == 55 || key == 97) { cstate[6] = !cstate[6] }
+		if (key == 40 || key == 56 || key == 98) { cstate[7] = !cstate[7] }
+		if (key == 34 || key == 57 || key == 99) { cstate[8] = !cstate[8] }
+
+		draw();
+	}
+
+	animate();
+	document.addEventListener('mousemove', function(e) {
+		getCursorPos(e)
+	});
+	document.addEventListener('mouseup', function(e) {
+		click(e)
+	});
+	window.onresize = function() {
+		rect = canvas.getBoundingClientRect();
+	};
+	document.addEventListener('keyup', function(e) {
+		keypress(e)
+	});
+</script>
+<script src="input.js"></script>
+
+</html>
