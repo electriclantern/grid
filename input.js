@@ -1,24 +1,24 @@
 function input() {
 	if (cstate[0] && cstate[1] && cstate[2] &&
-		cstate[3] && cstate[5] &&
+		cstate[3] && !cstate[4] && cstate[5] &&
 		cstate[6] && cstate[7] && cstate[8]) {
 		title("O", "o");
 	}
 
-	else if (cstate[0] && cstate[2] &&
-		cstate[4] &&
-		cstate[6] && cstate[8]) {
+	else if (cstate[0] && !cstate[1] && cstate[2]
+		!cstate[3] && cstate[4] && !cstate[5] &&
+		cstate[6] && cstate[8] && !cstate[9]) {
 		title("X", "x");
 	}
 
-	else if (cstate[0] && cstate[2] &&
+	else if (cstate[0] && !cstate[1] && cstate[2] &&
 		cstate[3] && cstate[4] && cstate[5] &&
-		cstate[6] && cstate[8]) {
+		cstate[6] && cstate[7] && cstate[8]) {
 		title("H", "h");
 	}
 
 	else if (cstate[0] && cstate[1] && cstate[2] &&
-		cstate[4] &&
+		!cstate[3] && cstate[4] && cstate[5] &&
 		cstate[6] && cstate[7] && cstate[8]) {
 		title("I", "i");
 	}
