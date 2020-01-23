@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>grid</title>
+	<title id="title">OXHI</title>
 
 	<style>
 		#canvas {
@@ -22,7 +22,8 @@
 
 <script src="input.js"></script>
 <script>
-	var canvas = document.getElementById("canvas");
+	var canvas = document.querySelector('canvas');
+	var title = document.querySelector('title').textContent;
 
 	var c = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 	c.size = canvas.width / 3;
@@ -125,7 +126,6 @@
 		draw();
 	}
 
-	animate();
 	document.addEventListener('mousemove', function(e) {
 		getCursorPos(e)
 	});
@@ -138,6 +138,8 @@
 	document.addEventListener('keyup', function(e) {
 		keypress(e)
 	});
+
+	animate();
 </script>
 
 </html>
