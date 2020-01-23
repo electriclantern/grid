@@ -87,7 +87,9 @@ function animation_OXHI() {
 			clearInterval(animation);
 
 			//OXHI UNLOCKED
-			bro.textContent = "whoa . nice job bro";
+			bro.textContent = "haha . nice job bro";
+			bro.className = 'interact';
+			bro.onclick = dialogue;
 			oxhi_song.play();
 			return
 		}
@@ -112,5 +114,20 @@ function lock(bool) {
 	} else {
 		locked = false;
 		canvas.style.cursor = 'pointer';
+	}
+}
+
+var dl = 0;
+var dialog = [
+	"thanks for freeing me bro . i've been stuck to this thing forever",
+	"now this weird beeping thing is yours . (unless you close the tab but that wouldn't be in the spirit of the game)",
+	"i can finally go home . . .",
+	""
+];
+function dialogue() {
+	bro.textContent = dialog[dl];
+
+	if (dialog[dl] != "") {
+		dl++
 	}
 }
