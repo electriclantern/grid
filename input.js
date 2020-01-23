@@ -62,7 +62,7 @@ function animation_loading() {
 			note_to_artist = false;
 			lock(false);
 			clearInterval(animation);
-			return;
+			return
 		}
 
 		note_to_artist = [[num], c.loading];
@@ -71,6 +71,7 @@ function animation_loading() {
 
 function animation_OXHI() {
 	lock(true);
+	bro.textContent = "";
 
 	var time = 0;
 	var int = 500;
@@ -83,7 +84,8 @@ function animation_OXHI() {
 			note_to_artist = false;
 			lock(false);
 			clearInterval(animation);
-			return;
+			bro.textContent = "whoa . nice job bro";
+			return
 		}
 
 		if (time == 500) {
