@@ -40,9 +40,8 @@ function title(a, b) {
 	clear();
 }
 
-var locked = false;
 function animation_loading() {
-	locked = true;
+	lock(true);
 
 	var time = 0;
 	var int = 150;
@@ -61,7 +60,7 @@ function animation_loading() {
 
 		if (time > timelimit) {
 			note_to_artist = false;
-			locked = false;
+			lock(false);
 			clearInterval(animation);
 			return;
 		}
@@ -71,7 +70,7 @@ function animation_loading() {
 }
 
 function animation_OXHI() {
-	locked = true;
+	lock(true);
 
 	var time = 0;
 	var int = 500;
@@ -82,7 +81,7 @@ function animation_OXHI() {
 
 		if (time > timelimit) {
 			note_to_artist = false;
-			locked = false;
+			lock(false);
 			clearInterval(animation);
 			return;
 		}
@@ -97,4 +96,15 @@ function animation_OXHI() {
 			note_to_artist = [[0, 1, 2, 4, 6, 7, 8], c.loading];
 		}
 	}, int)
+}
+
+var locked = false;
+function lock(bool) {
+	if (bool == true) {
+		locked = true;
+		canvas.style.cursor = 'auto';
+	} else {
+		locked = false;
+		canvas.style.cursor = 'pointer';
+	}
 }
