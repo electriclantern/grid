@@ -5,7 +5,7 @@ function input() {
 		title("O", "o");
 	}
 
-	else if (cstate[0] && !cstate[1] && cstate[2]
+	else if (cstate[0] && !cstate[1] && cstate[2] &&
 		!cstate[3] && cstate[4] && !cstate[5] &&
 		cstate[6] && cstate[8] && !cstate[9]) {
 		title("X", "x");
