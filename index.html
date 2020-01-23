@@ -13,6 +13,10 @@
 		#canvas:hover {
 			cursor: pointer;
 		}
+
+		html {
+			background-color: black;
+		}
 	</style>
 </head>
 
@@ -23,7 +27,6 @@
 <script src="input.js"></script>
 <script>
 	var canvas = document.querySelector("canvas");
-	var title = document.title;
 
 	var c = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 	c.size = canvas.width / 3;
@@ -45,12 +48,11 @@
 	}
 
 	var pos = {};
+	var note_to_artist = false;
 
 	function draw() {
 		let step = 0;
 		let x, y;
-
-		if (locked) { return }
 
 		for (let i = 0; i < 9; i++) {
 			let color = c.color;
@@ -59,8 +61,17 @@
 			x = i*c.size-canvas.width*step;
 			y = step*c.size;
 
-			// if hover
-			if ((pos.x >= x) &&
+			if (note_to_artist) {
+				if (note_to_artist[0] == i) {
+					color = note_to_artist[1]
+				} else {
+					for (let v = 0; v < note_to_artist[0].length; v++) {
+						if (note_to_artist[0][v] == i) {
+							color = note_to_artist[1]
+						}
+					}
+				}
+			} else if ((pos.x >= x) && //if hover
 				(pos.x <= x+c.size) &&
 				(pos.y >= y) &&
 				(pos.y <= y+c.size))

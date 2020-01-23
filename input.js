@@ -23,9 +23,9 @@ function input() {
 		title("I", "i");
 	}
 
-	if (title == "oxhi") {
-		title = "welcome.";
-		animation_loading();
+	if (document.title == "oxhi") {
+		document.title = "welcome.";
+		animation_OXHI();
 	}
 }
 
@@ -36,7 +36,7 @@ function clear() {
 }
 
 function title(a, b) {
-	title = title.replace(a, b);
+	document.title = document.title.replace(a, b);
 	clear();
 }
 
@@ -44,28 +44,57 @@ var locked = false;
 function animation_loading() {
 	locked = true;
 
-	//for three seconds, play this loading animation
 	var time = 0;
-	var int = 500;
-	var timelimit = 3000;
+	var int = 150;
+	var timelimit = 2000;
 
 	//every half a second, a random tile is colored 'c.loading'
 	var prevnum = 0;
 	var num = 0;
 	var animation = setInterval(function() {
-		time += 500;
+		time += int;
 
-		drawTile(num, c.color);
 		prevnum = num;
 		while (num == prevnum) {
 			num = Math.floor(Math.random()*9);
 		}
-		drawTile(num, c.loading);
 
-		if (time == timelimit) {
-			drawTile(num, c.color);
+		if (time > timelimit) {
+			note_to_artist = false;
 			locked = false;
 			clearInterval(animation);
+			return;
+		}
+
+		note_to_artist = [[num], c.loading];
+	}, int)
+}
+
+function animation_OXHI() {
+	locked = true;
+
+	var time = 0;
+	var int = 500;
+	var timelimit = 2000;
+
+	var animation = setInterval(function() {
+		time += int;
+
+		if (time > timelimit) {
+			note_to_artist = false;
+			locked = false;
+			clearInterval(animation);
+			return;
+		}
+
+		if (time == 500) {
+			note_to_artist = [[0, 1, 2, 3, 5, 6, 7, 8], c.loading];
+		} else if (time == 1000) {
+			note_to_artist = [[0, 2, 4, 6, 8], c.loading];
+		} else if (time == 1500) {
+			note_to_artist = [[0, 2, 3, 4, 5, 6, 8], c.loading];
+		} else if (time == 2000) {
+			note_to_artist = [[0, 1, 2, 4, 6, 7, 8], c.loading];
 		}
 	}, int)
 }
