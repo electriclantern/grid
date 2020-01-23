@@ -30,7 +30,7 @@ function clear() {
 	}
 }
 
-function title() {
+function title(a, b) {
 	document.title = document.title.replace(a, b);
 	clear();
 }
