@@ -47,8 +47,17 @@
 	var pos = {};
 
 	function draw() {
+		let step = 0;
+		let x, y;
+
+		if (locked) { return }
+
 		for (let i = 0; i < 9; i++) {
 			let color = c.color;
+
+			if ( (i % 3 === 0) && (i !== 0) ) { step++ }
+			x = i*c.size-canvas.width*step;
+			y = step*c.size;
 
 			// if hover
 			if ((pos.x >= x) &&
@@ -65,14 +74,13 @@
 		}
 	}
 	function drawTile(tile, color) {
-		let step;
+		let step = 0;
 		let x, y;
 
 		c[tile] = canvas.getContext("2d");
 
 		if (tile >= 3 && tile <= 5) { step = 1 }
 		else if (tile >= 6 && tile <= 8) { step = 2 }
-
 		x = tile*c.size-canvas.width*step;
 		y = step*c.size;
 
