@@ -72,10 +72,11 @@ function animation_loading() {
 function animation_OXHI() {
 	lock(true);
 	bro.textContent = "";
+	o_x_h_i.play();
 
 	var time = 0;
 	var int = 500;
-	var timelimit = 2000;
+	var timelimit = 2500;
 
 	var animation = setInterval(function() {
 		time += int;
