@@ -129,5 +129,5 @@ function dialogue() {
 
 	if (dialog[dl] != "") {
 		dl++
-	}
+	} else { bro.className = "" }
 }
