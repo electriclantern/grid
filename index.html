@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>OXHI</title>
+
+	<style>
+		html {
+			background-color: black;
+		}
+
+		#canvas {
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			position: absolute;
+			cursor: pointer;
+		}
+
+		#bro {
+			color: #bfe0de;
+			top: 20%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			position: absolute;
+			font-style: italic;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="bro">hey . can u figure this out . i dont know what this thing does</div>
+	<canvas id="canvas" width="390" height="390"></canvas>
+</body>
+
+<script src="input.js"></script>
+<script>
+	var canvas = document.querySelector("canvas");
+	var bro = document.getElementById("bro");
+
+	var c = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+	c.size = canvas.width / 3;
+	c.color = '#1d2224';
+	c.hover = '#ddedec';
+	c.selected = '#bfe0de';
+	c.loading = '#ba4c4c';
+
+	var cstate = {
+		0: false,
+		1: false,
+		2: false,
+		3: false,
+		4: false,
+		5: false,
+		6: false,
+		7: false,
+		8: false
+	}
+
+	var pos = {};
+	var note_to_artist = false;
+
+	function draw() {
+		let step = 0;
+		let x, y;
+
+		for (let i = 0; i < 9; i++) {
+			let color = c.color;
+
+			if ( (i % 3 === 0) && (i !== 0) ) { step++ }
+			x = i*c.size-canvas.width*step;
+			y = step*c.size;
+
+			if (note_to_artist) {
+				if (note_to_artist[0] == i) {
+					color = note_to_artist[1]
+				} else {
+					for (let v = 0; v < note_to_artist[0].length; v++) {
+						if (note_to_artist[0][v] == i) {
+							color = note_to_artist[1]
+						}
+					}
+				}
+			} else if ((pos.x >= x) && //if hover
+				(pos.x <= x+c.size) &&
+				(pos.y >= y) &&
+				(pos.y <= y+c.size))
+			{
+				color = c.hover
+			} else if (cstate[i]) {
+				color = c.selected
+			}
+
+			drawTile(i, color)
+		}
+	}
+	function drawTile(tile, color) {
+		let step = 0;
+		let x, y;
+
+		c[tile] = canvas.getContext("2d");
+
+		if (tile >= 3 && tile <= 5) { step = 1 }
+		else if (tile >= 6 && tile <= 8) { step = 2 }
+		x = tile*c.size-canvas.width*step;
+		y = step*c.size;
+
+		c[tile].fillStyle = color;
+
+		c[tile].fillRect(x, y, c.size, c.size);
+	}
+
+	var rect = canvas.getBoundingClientRect();
+	function getCursorPos(e) {
+		pos.x = event.clientX - rect.left;
+		pos.y = event.clientY - rect.top + 0.5;
+	}
+
+	function click(e) {
+		if (locked) { return }
+
+		let step = 0;
+		let x, y;
+
+		for (let i = 0; i < 9; i++) {
+			if ( (i % 3 === 0) && (i !== 0) ) { step++ }
+			x = i*c.size-canvas.width*step;
+			y = step*c.size;
+
+			if ( (pos.x >= x) &&
+				(pos.x <= x+c.size) &&
+				(pos.y >= y) &&
+				(pos.y <= y+c.size) )
+			{
+				cstate[i] = !cstate[i]
+			}
+		}
+
+		draw();
+	}
+
+	function keypress(e) {
+		if (locked) { return }
+
+		let key = e.keyCode;
+
+		if (key == 36 || key == 49 || key == 103) { cstate[0] = !cstate[0] }
+		if (key == 38 || key == 50 || key == 104) { cstate[1] = !cstate[1] }
+		if (key == 33 || key == 51 || key == 105) { cstate[2] = !cstate[2] }
+		if (key == 37 || key == 52 || key == 100) { cstate[3] = !cstate[3] }
+		if (key == 12 || key == 53 || key == 101) { cstate[4] = !cstate[4] }
+		if (key == 39 || key == 54 || key == 102) { cstate[5] = !cstate[5] }
+		if (key == 35 || key == 55 || key == 97) { cstate[6] = !cstate[6] }
+		if (key == 40 || key == 56 || key == 98) { cstate[7] = !cstate[7] }
+		if (key == 34 || key == 57 || key == 99) { cstate[8] = !cstate[8] }
+
+		draw();
+	}
+
+	document.addEventListener('mousemove', function(e) {
+		getCursorPos(e)
+	});
+	document.addEventListener('mouseup', function(e) {
+		click(e)
+	});
+	window.onresize = function() {
+		rect = canvas.getBoundingClientRect();
+	};
+	document.addEventListener('keyup', function(e) {
+		keypress(e)
+	});
+
+	function animate() {
+		requestAnimationFrame(animate);
+
+		canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
+
+		input();
+
+		draw();
+	}
+
+	animate();
+</script>
+
+</html>
