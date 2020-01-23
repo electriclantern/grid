@@ -4,10 +4,6 @@
 	<title>OXHI</title>
 
 	<style>
-		html {
-			background-color: black;
-		}
-
 		#canvas {
 			top: 50%;
 			left: 50%;
@@ -17,7 +13,7 @@
 		}
 
 		#bro {
-			color: #bfe0de;
+			color: #1d2224;
 			top: 20%;
 			left: 50%;
 			transform: translate(-50%, -50%);
@@ -33,16 +29,17 @@
 </body>
 
 <script src="input.js"></script>
+<script src="sfx.js"></script>
 <script>
 	var canvas = document.querySelector("canvas");
 	var bro = document.getElementById("bro");
 
 	var c = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 	c.size = canvas.width / 3;
-	c.color = '#1d2224';
-	c.hover = '#ddedec';
-	c.selected = '#bfe0de';
-	c.loading = '#ba4c4c';
+	c.color = '#ddedec';
+	c.hover = '#bfe0de';
+	c.selected = '#ffcf30';
+	c.loading = '#ff6b6b';
 
 	var cstate = {
 		0: false,
@@ -131,7 +128,8 @@
 				(pos.y >= y) &&
 				(pos.y <= y+c.size) )
 			{
-				cstate[i] = !cstate[i]
+				cstate[i] = !cstate[i];
+				sfx_tap();
 			}
 		}
 
@@ -143,15 +141,15 @@
 
 		let key = e.keyCode;
 
-		if (key == 36 || key == 49 || key == 103) { cstate[0] = !cstate[0] }
-		if (key == 38 || key == 50 || key == 104) { cstate[1] = !cstate[1] }
-		if (key == 33 || key == 51 || key == 105) { cstate[2] = !cstate[2] }
-		if (key == 37 || key == 52 || key == 100) { cstate[3] = !cstate[3] }
-		if (key == 12 || key == 53 || key == 101) { cstate[4] = !cstate[4] }
-		if (key == 39 || key == 54 || key == 102) { cstate[5] = !cstate[5] }
-		if (key == 35 || key == 55 || key == 97) { cstate[6] = !cstate[6] }
-		if (key == 40 || key == 56 || key == 98) { cstate[7] = !cstate[7] }
-		if (key == 34 || key == 57 || key == 99) { cstate[8] = !cstate[8] }
+		if (key == 36 || key == 49 || key == 103) { cstate[0] = !cstate[0]; sfx_tap() }
+		if (key == 38 || key == 50 || key == 104) { cstate[1] = !cstate[1]; sfx_tap() }
+		if (key == 33 || key == 51 || key == 105) { cstate[2] = !cstate[2]; sfx_tap() }
+		if (key == 37 || key == 52 || key == 100) { cstate[3] = !cstate[3]; sfx_tap() }
+		if (key == 12 || key == 53 || key == 101) { cstate[4] = !cstate[4]; sfx_tap() }
+		if (key == 39 || key == 54 || key == 102) { cstate[5] = !cstate[5]; sfx_tap() }
+		if (key == 35 || key == 55 || key == 97) { cstate[6] = !cstate[6]; sfx_tap() }
+		if (key == 40 || key == 56 || key == 98) { cstate[7] = !cstate[7]; sfx_tap() }
+		if (key == 34 || key == 57 || key == 99) { cstate[8] = !cstate[8]; sfx_tap() }
 
 		draw();
 	}
@@ -159,7 +157,7 @@
 	document.addEventListener('mousemove', function(e) {
 		getCursorPos(e)
 	});
-	document.addEventListener('mouseup', function(e) {
+	canvas.addEventListener('mouseup', function(e) {
 		click(e)
 	});
 	window.onresize = function() {

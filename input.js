@@ -84,7 +84,10 @@ function animation_OXHI() {
 			note_to_artist = false;
 			lock(false);
 			clearInterval(animation);
+
+			//OXHI UNLOCKED
 			bro.textContent = "whoa . nice job bro";
+			oxhi_song.play();
 			return
 		}
 
