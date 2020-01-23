@@ -22,8 +22,7 @@
 
 <script src="input.js"></script>
 <script>
-	var canvas = document.querySelector('canvas');
-	var title = document.querySelector('title').textContent;
+	var canvas = document.querySelector("canvas");
 
 	var c = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 	c.size = canvas.width / 3;
@@ -32,6 +31,7 @@
 	c.selected = 'lightblue';
 
 	var cstate = {
+		0: false,
 		1: false,
 		2: false,
 		3: false,
@@ -39,8 +39,7 @@
 		5: false,
 		6: false,
 		7: false,
-		8: false,
-		9: false
+		8: false
 	}
 
 	var pos = {};
