@@ -5,23 +5,24 @@
 
 	<style>
 		#canvas {
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%, -50%);
-			position: absolute;
 			cursor: pointer;
 		}
 
 		#bro {
 			width: 370px;
+			height: 3em;
 			color: #1d2224;
-			top: 20%;
-			left: 50%;
-			transform: translate(-50%, -50%);
-			position: absolute;
 			font-style: italic;
 			text-align: center;
 			padding: 10px;
+			margin-bottom: 10px;
+		}
+
+		#container {
+			top: 40%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			position: absolute;
 		}
 
 		.interact {
@@ -35,8 +36,10 @@
 </head>
 
 <body>
-	<div id="bro">hey . can u figure this out . i dont know what this thing does</div>
-	<canvas id="canvas" width="390" height="390"></canvas>
+	<div id="container">
+		<div id="bro">hey . can u figure this out . i dont know what this thing does</div>
+		<canvas id="canvas" width="390" height="390"></canvas>
+	</div>
 </body>
 
 <script src="input.js"></script>
