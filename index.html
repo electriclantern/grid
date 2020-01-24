@@ -47,16 +47,20 @@
 		}
 
 		#intro {
+			width: 390px;
+			height: 390px;
+			background-color: #ddedec;
 			top: 40%;
 			left: 50%;
 			transform: translate(-50%, -50%);
 			position: absolute;
+			cursor: pointer;
 		}
 	</style>
 </head>
 
 <body>
-	<div id="intro">play with sound :)</div>
+	<div id="intro" onclick="startGame()"><p style="top:50%;left:50%;transform:translate(-50%,-50%);position:absolute;text-align:center">play with sound :)<br>click to begin</p></div>
 	<div id="container" style="display:none">
 		<div id="bro_container">
 			<div id="bro">hey . can u figure this out . i dont know what this thing does</div>
@@ -221,7 +225,7 @@
 		if (touchDevice) { mobileaid = document.title }
 	}
 
-	setTimeout(function() {
+	function startGame() {
 		document.getElementById("intro").style.display = 'none';
 		document.getElementById("container").style.display = 'block';
 
@@ -229,7 +233,7 @@
 		c.size = canvas.width / 3;
 
 		animate();
-	}, 2000)
+	}
 
 	//mobile support
 	var touchDevice = (navigator.maxTouchPoints || 'ontouchstart' in document.documentElement);
