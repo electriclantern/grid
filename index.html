@@ -10,28 +10,19 @@
 		}
 
 		#container {
-			top: 40%;
+			top: 20%;
 			left: 50%;
-			transform: translate(-50%, -50%);
+			transform: translateX(-50%);
 			position: absolute;
 		}
 
-		#bro {
+		.dialogue {
 			color: #1d2224;
-			font-style: italic;
 			text-align: center;
 			padding: 10px;
 			position: relative;
-			top: 50%;
-			transform: translateY(-50%);
+			width: 370px;
 		}
-
-		#bro_container {
-			width: 390px;
-			height: 3em;
-			margin-bottom: 10px;
-		}
-
 		.interact {
 			background-color: #ddedec;
 			cursor: pointer;
@@ -41,8 +32,10 @@
 			background-color: #bfe0de;
 		}
 
+		#bro { font-style: italic; }
+
 		#mobileaid {
-			padding-top: 10px;
+			padding-bottom: 10px;
 			color: #1d2224;
 		}
 
@@ -60,16 +53,17 @@
 <body>
 	<div id="intro" onclick="clearIntro()" style="display:none">this site doesn't work very well on mobile browsers. audio's a big part of it but i haven't figured out a way to make it work properly :(<br /><br />that said, i've made it so that u can access what i've got so far if you really want to. tap here to begin.</div>
 	<div id="container">
-		<div id="bro_container">
-			<div id="bro">hey . can u figure this out . i dont know what this thing does</div>
-		</div>
-		<canvas id="canvas" width="390" height="390"></canvas>
 		<div id="mobileaid" style="display:none">OXHI</div>
+		<canvas id="canvas" width="390" height="390"></canvas>
+		<div id="bro" class="dialogue" onclick="unsay('bro')">
+			hey . can u figure this out . i dont know what this thing does
+		</div>
 	</div>
 </body>
 
 <script src="input.js"></script>
 <script src="sfx.js"></script>
+<script src="dialogue.js"></script>
 <script>
 	var canvas = document.querySelector("canvas");
 	var bro = document.getElementById("bro");
@@ -97,8 +91,15 @@
 	var note_to_artist = false;
 
 	function draw() {
+		let step = 0;
+		let x, y;
+
 		for (let i = 0; i < 9; i++) {
 			let color = c.color;
+
+			if ( (i % 3 === 0) && (i !== 0) ) { step++ }
+			x = i*c.size-canvas.width*step;
+			y = step*c.size;
 
 			if (note_to_artist) {
 				if (note_to_artist[0] == i) {
@@ -110,6 +111,12 @@
 						}
 					}
 				}
+			} else if (!touchDevice && pos.x >= x && //if hover
+				pos.x <= x+c.size &&
+				pos.y >= y &&
+				pos.y <= y+c.size)
+			{
+				color = c.hover
 			} else if (cstate[i]) {
 				color = c.selected
 			}
@@ -117,6 +124,7 @@
 			drawTile(i, color)
 		}
 	}
+
 	function drawTile(tile, color) {
 		let step = 0;
 		let x, y;
@@ -215,7 +223,7 @@
 			var mobileaid = document.getElementById("mobileaid");
 			mobileaid.style.display = "block";
 			document.getElementById("intro").style.display = "block";
-			document.getElementById("container").style.display = "none";
+			container.style.display = "none";
 		}, 300);
 
 		//let ratio = window.innerWidth / canvas.width;
@@ -226,7 +234,7 @@
 	}
 	function clearIntro() {
 		document.getElementById("intro").style.display = "none";
-		document.getElementById("container").style.display = "block";
+		container.style.display = "block";
 	}
 
 </script>

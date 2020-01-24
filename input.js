@@ -1,26 +1,46 @@
+var s = {
+	o: [1, 1, 1,
+		1, 0, 1,
+		1, 1, 1],
+	x: [1, 0, 1,
+		0, 1, 0,
+		1, 0, 1],
+	h: [1, 0, 1,
+		1, 1, 1,
+		1, 0, 1],
+	i: [1, 1, 1,
+		0, 1, 0,
+		1, 1, 1]
+}
+
+function isShape(shape) {
+	let parsed = true;
+
+	for (let i = 0; i < 9; i++) {
+		if ((cstate[i] == false && shape[i] == 1) ||
+			(cstate[i] == true && shape[i] == false)) {
+			parsed = false
+		}
+	}
+
+	return parsed;
+}
+
 function input() {
 	if (document.title.toLowerCase() == "oxhi") {
-		if (cstate[0] && cstate[1] && cstate[2] &&
-			cstate[3] && !cstate[4] && cstate[5] &&
-			cstate[6] && cstate[7] && cstate[8]) {
-			title("O", "o");
+		if (isShape(s.o)) {
+			title("O", "o")
 		}
 
-		else if (cstate[0] && !cstate[1] && cstate[2] &&
-			!cstate[3] && cstate[4] && !cstate[5] &&
-			cstate[6] && cstate[8] && !cstate[9]) {
+		else if (isShape(s.x)) {
 			title("X", "x");
 		}
 
-		else if (cstate[0] && !cstate[1] && cstate[2] &&
-			cstate[3] && cstate[4] && cstate[5] &&
-			cstate[6] && !cstate[7] && cstate[8]) {
+		else if (isShape(s.h)) {
 			title("H", "h");
 		}
 
-		else if (cstate[0] && cstate[1] && cstate[2] &&
-			!cstate[3] && cstate[4] && !cstate[5] &&
-			cstate[6] && cstate[7] && cstate[8]) {
+		else if (isShape(s.i)) {
 			title("I", "i");
 		}
 
@@ -35,15 +55,15 @@ function input() {
 	}
 }
 
+function title(a, b) {
+	document.title = document.title.replace(a, b);
+	clear();
+}
+
 function clear() {
 	for (let i = 0; i < 9; i++) {
 		if (cstate[i]) { cstate[i] = !cstate[i] }
 	}
-}
-
-function title(a, b) {
-	document.title = document.title.replace(a, b);
-	clear();
 }
 
 function animation_loading() {
@@ -93,9 +113,7 @@ function animation_OXHI() {
 			clearInterval(animation);
 
 			//OXHI UNLOCKED
-			bro.textContent = "haha . nice job bro";
-			bro.className = 'interact';
-			bro.onclick = dialogue;
+			say('bro', dialogue_one);
 			oxhi_song.play();
 			return
 		}
@@ -121,19 +139,4 @@ function lock(bool) {
 		locked = false;
 		canvas.style.cursor = 'pointer';
 	}
-}
-
-var dl = 0;
-var dialog = [
-	"(thats the end of what i made so far :D)",
-	""
-];
-function dialogue() {
-	bro.className = "interact";
-
-	bro.textContent = dialog[dl];
-
-	if (dialog[dl] != "") {
-		dl++
-	} else { bro.className = "" }
 }
