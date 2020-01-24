@@ -113,7 +113,7 @@ function animation_OXHI() {
 			clearInterval(animation);
 
 			//OXHI UNLOCKED
-			say('bro', dialogue_one);
+			say(dialogue_string);
 			oxhi_song.play();
 			return
 		}
