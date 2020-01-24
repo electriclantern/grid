@@ -229,13 +229,19 @@
 	//mobile support
 	var touchDevice = (navigator.maxTouchPoints || 'ontouchstart' in document.documentElement);
 	if (touchDevice) {
+
+                setTimeout(function() {
+
+                rect = canvas.getBoundingClientRect();
+		var mobileaid = document.getElementById("mobileaid");
+		mobileaid.style.display = 'block';
+
+                }, 300);
+
 		//let ratio = window.innerWidth / canvas.width;
 		//canvas.width = window.innerWidth;
 		//canvas.height *= ratio;
 		c.size = canvas.width / 3;
-		var rect = canvas.getBoundingClientRect();
-		var mobileaid = document.getElementById("mobileaid");
-		mobileaid.style.display = 'block';
 
 		document.head.innerHTML += '<meta name="viewport" content="width=device-width, initial-scale=0.8, maximum-scale=0.8, user-scalable=0">'
 	}
