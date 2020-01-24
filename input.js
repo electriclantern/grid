@@ -1,31 +1,37 @@
 function input() {
-	if (cstate[0] && cstate[1] && cstate[2] &&
-		cstate[3] && !cstate[4] && cstate[5] &&
-		cstate[6] && cstate[7] && cstate[8]) {
-		title("O", "o");
+	if (document.title.toLowerCase() == "oxhi") {
+		if (cstate[0] && cstate[1] && cstate[2] &&
+			cstate[3] && !cstate[4] && cstate[5] &&
+			cstate[6] && cstate[7] && cstate[8]) {
+			title("O", "o");
+		}
+
+		else if (cstate[0] && !cstate[1] && cstate[2] &&
+			!cstate[3] && cstate[4] && !cstate[5] &&
+			cstate[6] && cstate[8] && !cstate[9]) {
+			title("X", "x");
+		}
+
+		else if (cstate[0] && !cstate[1] && cstate[2] &&
+			cstate[3] && cstate[4] && cstate[5] &&
+			cstate[6] && !cstate[7] && cstate[8]) {
+			title("H", "h");
+		}
+
+		else if (cstate[0] && cstate[1] && cstate[2] &&
+			!cstate[3] && cstate[4] && !cstate[5] &&
+			cstate[6] && cstate[7] && cstate[8]) {
+			title("I", "i");
+		}
+
+		if (document.title == "oxhi") {
+			document.title = "welcome.";
+			animation_OXHI();
+		}
 	}
 
-	else if (cstate[0] && !cstate[1] && cstate[2] &&
-		!cstate[3] && cstate[4] && !cstate[5] &&
-		cstate[6] && cstate[8] && !cstate[9]) {
-		title("X", "x");
-	}
+	if (document.title.toLowerCase() == "welcome.") {
 
-	else if (cstate[0] && !cstate[1] && cstate[2] &&
-		cstate[3] && cstate[4] && cstate[5] &&
-		cstate[6] && !cstate[7] && cstate[8]) {
-		title("H", "h");
-	}
-
-	else if (cstate[0] && cstate[1] && cstate[2] &&
-		!cstate[3] && cstate[4] && !cstate[5] &&
-		cstate[6] && cstate[7] && cstate[8]) {
-		title("I", "i");
-	}
-
-	if (document.title == "oxhi") {
-		document.title = "welcome.";
-		animation_OXHI();
 	}
 }
 

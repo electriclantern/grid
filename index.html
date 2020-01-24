@@ -98,15 +98,8 @@
 	var note_to_artist = false;
 
 	function draw() {
-		let step = 0;
-		let x, y;
-
 		for (let i = 0; i < 9; i++) {
 			let color = c.color;
-
-			if ( (i % 3 === 0) && (i !== 0) ) { step++ }
-			x = i*c.size-canvas.width*step;
-			y = step*c.size;
 
 			if (note_to_artist) {
 				if (note_to_artist[0] == i) {
@@ -118,12 +111,6 @@
 						}
 					}
 				}
-			} else if (!touchDevice && pos.x >= x && //if hover
-				pos.x <= x+c.size &&
-				pos.y >= y &&
-				pos.y <= y+c.size)
-			{
-				color = c.hover
 			} else if (cstate[i]) {
 				color = c.selected
 			}
@@ -198,15 +185,9 @@
 	document.addEventListener('mousemove', function(e) {
 		getCursorPos(e)
 	});
-	if (!touchDevice) {
-		canvas.addEventListener('mouseup', function(e) {
-			click(e)
-		});
-	} else {
-		canvas.addEventListener('mousedown', function(e) {
-			click(e)
-		});
-	}
+	canvas.addEventListener('mouseup', function(e) {
+		click(e)
+	});
 	window.onresize = function() {
 		rect = canvas.getBoundingClientRect();
 	};
@@ -222,7 +203,7 @@
 		input();
 		draw();
 
-		if (touchDevice) { mobileaid = document.title }
+		if (touchDevice) { mobileaid.textContent = document.title }
 	}
 
 	animate();
@@ -239,7 +220,6 @@
 		//let ratio = window.innerWidth / canvas.width;
 		//canvas.width = window.innerWidth;
 		//canvas.height *= ratio;
-		
 
 		document.head.innerHTML += '<meta name="viewport" content="width=device-width, initial-scale=0.8, maximum-scale=0.8, user-scalable=0">'
 	}
