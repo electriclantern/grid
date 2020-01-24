@@ -40,15 +40,29 @@
 		.interact:hover {
 			background-color: #bfe0de;
 		}
+
+		#mobileaid {
+			padding-top: 10px;
+			color: #1d2224;
+		}
+
+		#intro {
+			top: 40%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			position: absolute;
+		}
 	</style>
 </head>
 
 <body>
-	<div id="container">
+	<div id="intro">play with sound :)</div>
+	<div id="container" style="display:none">
 		<div id="bro_container">
 			<div id="bro">hey . can u figure this out . i dont know what this thing does</div>
 		</div>
 		<canvas id="canvas" width="390" height="390"></canvas>
+		<div id="mobileaid" style="display:none">OXHI</div>
 	</div>
 </body>
 
@@ -59,7 +73,6 @@
 	var bro = document.getElementById("bro");
 
 	var c = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-	c.size = canvas.width / 3;
 	c.color = '#ddedec';
 	c.hover = '#bfe0de';
 	c.selected = '#ffcf30';
@@ -186,7 +199,7 @@
 			click(e)
 		});
 	} else {
-		canvas.addEventListener('touchstart', function(e) {
+		canvas.addEventListener('mousedown', function(e) {
 			click(e)
 		});
 	}
@@ -204,9 +217,19 @@
 
 		input();
 		draw();
+
+		if (touchDevice) { mobileaid = document.title }
 	}
 
-	animate();
+	setTimeout(function() {
+		document.getElementById("intro").style.display = 'none';
+		document.getElementById("container").style.display = 'block';
+
+		rect = canvas.getBoundingClientRect();
+		c.size = canvas.width / 3;
+
+		animate();
+	}, 2000)
 
 	//mobile support
 	var touchDevice = (navigator.maxTouchPoints || 'ontouchstart' in document.documentElement);
@@ -214,8 +237,10 @@
 		//let ratio = window.innerWidth / canvas.width;
 		//canvas.width = window.innerWidth;
 		//canvas.height *= ratio;
-		//c.size = canvas.width / 3;
-		//var rect = canvas.getBoundingClientRect();
+		c.size = canvas.width / 3;
+		var rect = canvas.getBoundingClientRect();
+		var mobileaid = document.getElementById("mobileaid");
+		mobileaid.style.display = 'block';
 
 		document.head.innerHTML += '<meta name="viewport" content="width=device-width, initial-scale=0.8, maximum-scale=0.8, user-scalable=0">'
 	}
