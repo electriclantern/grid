@@ -60,8 +60,7 @@
 </head>
 
 <body>
-	<div id="intro" onclick="startGame()"><p style="top:50%;left:50%;transform:translate(-50%,-50%);position:absolute;text-align:center">play with sound :)<br>click to begin</p></div>
-	<div id="container" style="display:none">
+	<div id="container">
 		<div id="bro_container">
 			<div id="bro">hey . can u figure this out . i dont know what this thing does</div>
 		</div>
@@ -225,15 +224,7 @@
 		if (touchDevice) { mobileaid = document.title }
 	}
 
-	function startGame() {
-		document.getElementById("intro").style.display = 'none';
-		document.getElementById("container").style.display = 'block';
-
-		rect = canvas.getBoundingClientRect();
-		c.size = canvas.width / 3;
-
-		animate();
-	}
+	animate();
 
 	//mobile support
 	var touchDevice = (navigator.maxTouchPoints || 'ontouchstart' in document.documentElement);
