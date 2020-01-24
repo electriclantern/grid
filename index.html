@@ -76,6 +76,7 @@
 	var bro = document.getElementById("bro");
 
 	var c = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+	c.size = canvas.width / 3;
 	c.color = '#ddedec';
 	c.hover = '#bfe0de';
 	c.selected = '#ffcf30';
@@ -229,19 +230,16 @@
 	//mobile support
 	var touchDevice = (navigator.maxTouchPoints || 'ontouchstart' in document.documentElement);
 	if (touchDevice) {
-
-                setTimeout(function() {
-
-                rect = canvas.getBoundingClientRect();
-		var mobileaid = document.getElementById("mobileaid");
-		mobileaid.style.display = 'block';
-
-                }, 300);
+		setTimeout(function() {
+			rect = canvas.getBoundingClientRect();
+			var mobileaid = document.getElementById("mobileaid");
+			mobileaid.style.display = 'block'
+		}, 300);
 
 		//let ratio = window.innerWidth / canvas.width;
 		//canvas.width = window.innerWidth;
 		//canvas.height *= ratio;
-		c.size = canvas.width / 3;
+		
 
 		document.head.innerHTML += '<meta name="viewport" content="width=device-width, initial-scale=0.8, maximum-scale=0.8, user-scalable=0">'
 	}
