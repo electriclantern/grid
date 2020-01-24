@@ -47,19 +47,18 @@
 		}
 
 		#intro {
-			width: 390px;
-			height: 390px;
 			background-color: #ddedec;
 			top: 40%;
 			left: 50%;
 			transform: translate(-50%, -50%);
 			position: absolute;
-			cursor: pointer;
+			padding: 30px;
 		}
 	</style>
 </head>
 
 <body>
+	<div id="intro" onclick="clearIntro()" style="display:none">this site doesn't work very well on mobile browsers. audio's a big part of it but i haven't figured out a way to make it work properly :(<br /><br />that said, i've made it so that u can access what i've got so far if you really want to. tap here to begin.</div>
 	<div id="container">
 		<div id="bro_container">
 			<div id="bro">hey . can u figure this out . i dont know what this thing does</div>
@@ -214,7 +213,9 @@
 		setTimeout(function() {
 			rect = canvas.getBoundingClientRect();
 			var mobileaid = document.getElementById("mobileaid");
-			mobileaid.style.display = 'block'
+			mobileaid.style.display = "block";
+			document.getElementById("intro").style.display = "block";
+			document.getElementById("container").style.display = "none";
 		}, 300);
 
 		//let ratio = window.innerWidth / canvas.width;
@@ -222,6 +223,10 @@
 		//canvas.height *= ratio;
 
 		document.head.innerHTML += '<meta name="viewport" content="width=device-width, initial-scale=0.8, maximum-scale=0.8, user-scalable=no">'
+	}
+	function clearIntro() {
+		document.getElementById("intro").style.display = "none";
+		document.getElementById("container").style.display = "block";
 	}
 
 </script>

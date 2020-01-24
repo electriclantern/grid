@@ -76,9 +76,9 @@ function animation_loading() {
 }
 
 function animation_OXHI() {
+	o_x_h_i.play();
 	lock(true);
 	bro.textContent = "";
-	o_x_h_i.play();
 
 	var time = 0;
 	var int = 500;
