@@ -119,13 +119,12 @@ function lock(bool) {
 
 var dl = 0;
 var dialog = [
-	"thanks for freeing me bro . i've been stuck to this thing forever",
-	"now this weird beeping thing is yours . (unless you close the tab but that wouldn't be in the spirit of the game)",
-	"i can finally go home . . .",
 	"(thats the end of what i made so far :D)",
 	""
 ];
 function dialogue() {
+	bro.className = "interact";
+
 	bro.textContent = dialog[dl];
 
 	if (dialog[dl] != "") {
