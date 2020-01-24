@@ -6,16 +6,7 @@
 	<style>
 		#canvas {
 			cursor: pointer;
-		}
-
-		#bro {
-			width: 370px;
-			height: 3em;
-			color: #1d2224;
-			font-style: italic;
-			text-align: center;
-			padding: 10px;
-			margin-bottom: 10px;
+			-webkit-tap-highlight-color: rgba(0,0,0,0);
 		}
 
 		#container {
@@ -25,9 +16,26 @@
 			position: absolute;
 		}
 
+		#bro {
+			color: #1d2224;
+			font-style: italic;
+			text-align: center;
+			padding: 10px;
+			position: relative;
+			top: 50%;
+			transform: translateY(-50%);
+		}
+
+		#bro_container {
+			width: 390px;
+			height: 3em;
+			margin-bottom: 10px;
+		}
+
 		.interact {
 			background-color: #ddedec;
 			cursor: pointer;
+			-webkit-tap-highlight-color: rgba(0,0,0,0);
 		}
 		.interact:hover {
 			background-color: #bfe0de;
@@ -37,7 +45,9 @@
 
 <body>
 	<div id="container">
-		<div id="bro">hey . can u figure this out . i dont know what this thing does</div>
+		<div id="bro_container">
+			<div id="bro">hey . can u figure this out . i dont know what this thing does</div>
+		</div>
 		<canvas id="canvas" width="390" height="390"></canvas>
 	</div>
 </body>
@@ -91,10 +101,10 @@
 						}
 					}
 				}
-			} else if ((pos.x >= x) && //if hover
-				(pos.x <= x+c.size) &&
-				(pos.y >= y) &&
-				(pos.y <= y+c.size))
+			} else if (!touchDevice && pos.x >= x && //if hover
+				pos.x <= x+c.size &&
+				pos.y >= y &&
+				pos.y <= y+c.size)
 			{
 				color = c.hover
 			} else if (cstate[i]) {
@@ -171,9 +181,15 @@
 	document.addEventListener('mousemove', function(e) {
 		getCursorPos(e)
 	});
-	canvas.addEventListener('mouseup', function(e) {
-		click(e)
-	});
+	if (!touchDevice) {
+		canvas.addEventListener('mouseup', function(e) {
+			click(e)
+		});
+	} else {
+		canvas.addEventListener('touchstart', function(e) {
+			click(e)
+		});
+	}
 	window.onresize = function() {
 		rect = canvas.getBoundingClientRect();
 	};
@@ -187,11 +203,23 @@
 		canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
 
 		input();
-
 		draw();
 	}
 
 	animate();
+
+	//mobile support
+	var touchDevice = (navigator.maxTouchPoints || 'ontouchstart' in document.documentElement);
+	if (touchDevice) {
+		//let ratio = window.innerWidth / canvas.width;
+		//canvas.width = window.innerWidth;
+		//canvas.height *= ratio;
+		//c.size = canvas.width / 3;
+		//var rect = canvas.getBoundingClientRect();
+
+		document.head.innerHTML += '<meta name="viewport" content="width=device-width, initial-scale=0.8, maximum-scale=0.8, user-scalable=0">'
+	}
+
 </script>
 
 </html>
