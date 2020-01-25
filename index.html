@@ -67,10 +67,11 @@
 
 	var c = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 	c.size = canvas.width / 3;
-	c.color = '#ddedec';
-	c.hover = '#bfe0de';
-	c.selected = '#ffcf30';
-	c.loading = '#ff6b6b';
+	c.color = 'rgba(221, 237, 236,';
+	c.hover = 'rgba(240, 255, 255,';
+	c.selected = 'rgba(255, 207, 48,';
+	c.loading = 'rgba(255, 107, 107,';
+	var grid_alpha_value = 1;
 
 	var cstate = {
 		0: false,
@@ -88,11 +89,12 @@
 	var note_to_artist = false;
 
 	function draw() {
+		//draw control grid
 		let step = 0;
 		let x, y;
 
 		for (let i = 0; i < 9; i++) {
-			let color = c.color;
+			let color = addAlpha(c.color);
 
 			if ( (i % 3 === 0) && (i !== 0) ) { step++ }
 			x = i*c.size-canvas.width*step;
@@ -100,25 +102,29 @@
 
 			if (note_to_artist) {
 				if (note_to_artist[0] == i) {
-					color = note_to_artist[1]
+					color = addAlpha(note_to_artist[1])
 				} else {
 					for (let v = 0; v < note_to_artist[0].length; v++) {
 						if (note_to_artist[0][v] == i) {
-							color = note_to_artist[1]
+							color = addAlpha(note_to_artist[1])
 						}
 					}
 				}
-			} else if (!touchDevice && pos.x >= x && //if hover
+			} else if (cstate[i]) {
+				color = addAlpha(c.selected)
+			}
+
+			if (!locked && !touchDevice && pos.x >= x && //if hover
 				pos.x <= x+c.size &&
 				pos.y >= y &&
 				pos.y <= y+c.size)
 			{
-				color = c.hover
-			} else if (cstate[i]) {
-				color = c.selected
+				drawTile(i, color);
+				drawHover(i);
+			} else {
+				hover = 0;
+				drawTile(i, color)
 			}
-
-			drawTile(i, color)
 		}
 	}
 
@@ -136,6 +142,28 @@
 		c[tile].fillStyle = color;
 
 		c[tile].fillRect(x, y, c.size, c.size);
+	}
+
+	var hover;
+	function drawHover(tile) {
+		let step = 0;
+		let x, y;
+
+		hover = canvas.getContext("2d");
+
+		if (tile >= 3 && tile <= 5) { step = 1 }
+		else if (tile >= 6 && tile <= 8) { step = 2 }
+		x = tile*c.size-canvas.width*step;
+		y = step*c.size;
+
+		hover.fillStyle = addAlpha(c.hover);
+
+		hover.fillRect(x, y, c.size, c.size);
+	}
+
+	function addAlpha(color) {
+		color += grid_alpha_value+')'
+		return color;
 	}
 
 	var rect = canvas.getBoundingClientRect();

@@ -14,7 +14,7 @@ oxhi_song.loop = true;
 
 var o_x_h_i = new Audio("sfx/o_x_h_i.wav");
 
-// everything is way too loud lol
+// everything is way too loud
 oxhi_song.volume = 0.1;
 for (let i = 0; i < 8; i++) {
 	tap[i].volume = 0.1;
