@@ -122,7 +122,7 @@ function animation_loading() {
 	var int = 150;
 	var timelimit = 2000;
 
-	//every half a second, a random tile is colored 'c.color_i'
+	//every half a second, a random tile is colored 'c.info'
 	var prevnum = 0;
 	var num = 0;
 	var animation = setInterval(function() {
@@ -140,7 +140,7 @@ function animation_loading() {
 			return
 		}
 
-		note_to_artist = [[num], c.color_i];
+		note_to_artist = [[num], c.info];
 	}, int)
 }
 
@@ -169,13 +169,13 @@ function animation_OXHI() {
 		}
 
 		if (time == 500) {
-			note_to_artist = [[0, 1, 2, 3, 5, 6, 7, 8], c.color_i];
+			note_to_artist = [[0, 1, 2, 3, 5, 6, 7, 8], c.info];
 		} else if (time == 1000) {
-			note_to_artist = [[0, 2, 4, 6, 8], c.color_i];
+			note_to_artist = [[0, 2, 4, 6, 8], c.info];
 		} else if (time == 1500) {
-			note_to_artist = [[0, 2, 3, 4, 5, 6, 8], c.color_i];
+			note_to_artist = [[0, 2, 3, 4, 5, 6, 8], c.info];
 		} else if (time == 2000) {
-			note_to_artist = [[0, 1, 2, 4, 6, 7, 8], c.color_i];
+			note_to_artist = [[0, 1, 2, 4, 6, 7, 8], c.info];
 		}
 	}, int)
 }
