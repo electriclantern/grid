@@ -10,7 +10,7 @@
 		}
 
 		#container {
-			top: 20%;
+			top: 10%;
 			left: 50%;
 			transform: translateX(-50%);
 			position: absolute;
@@ -22,6 +22,7 @@
 			padding: 10px;
 			position: relative;
 			width: 370px;
+			user-select: none;
 		}
 
 		#bro {
@@ -58,20 +59,25 @@
 	</div>
 </body>
 
-<script src="input.js"></script>
-<script src="sfx.js"></script>
-<script src="dialogue.js"></script>
+<script src="js/input.js"></script>
+<script src="js/sfx.js"></script>
+<script src="js/dialogue.js"></script>
+<script src="js/npc.js"></script>
 <script>
 	var canvas = document.querySelector("canvas");
 	var bro = document.getElementById("bro");
 
 	var c = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 	c.size = canvas.width / 3;
-	c.color = 'rgba(221, 237, 236,';
 	c.hover = 'rgba(240, 255, 255,';
 	c.selected = 'rgba(255, 207, 48,';
-	c.loading = 'rgba(255, 107, 107,';
 	var grid_alpha_value = 1;
+
+	c.color = 'rgba(221, 237, 236,';
+	c.color_o = 'rgba(221, 237, 236,'; //blue
+	c.color_x = 'rgba(244, 194, 75,'; //gold?
+	c.color_h = 'rgba(195, 255, 193,'; //green
+	c.color_i = 'rgba(255, 230, 214,'; //reddish pinkish
 
 	var cstate = {
 		0: false,
@@ -88,7 +94,7 @@
 	var pos = {};
 	var note_to_artist = false;
 
-	function draw() {
+	function draw() {		
 		//draw control grid
 		let step = 0;
 		let x, y;
