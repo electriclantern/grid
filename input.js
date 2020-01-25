@@ -1,14 +1,14 @@
 var s = {
-	o: [1, 1, 1,
+	O: [1, 1, 1,
 		1, 0, 1,
 		1, 1, 1],
-	x: [1, 0, 1,
+	X: [1, 0, 1,
 		0, 1, 0,
 		1, 0, 1],
-	h: [1, 0, 1,
+	H: [1, 0, 1,
 		1, 1, 1,
 		1, 0, 1],
-	i: [1, 1, 1,
+	I: [1, 1, 1,
 		0, 1, 0,
 		1, 1, 1]
 }
@@ -28,19 +28,19 @@ function isShape(shape) {
 
 function input() {
 	if (document.title.toLowerCase() == "oxhi") {
-		if (isShape(s.o)) {
+		if (isShape(s.O)) {
 			title("O", "o")
 		}
 
-		else if (isShape(s.x)) {
+		else if (isShape(s.X)) {
 			title("X", "x");
 		}
 
-		else if (isShape(s.h)) {
+		else if (isShape(s.H)) {
 			title("H", "h");
 		}
 
-		else if (isShape(s.i)) {
+		else if (isShape(s.I)) {
 			title("I", "i");
 		}
 
@@ -113,6 +113,7 @@ function animation_OXHI() {
 			clearInterval(animation);
 
 			//OXHI UNLOCKED
+			clearDialogue('bro');
 			say(dialogue_string);
 			oxhi_song.play();
 			return

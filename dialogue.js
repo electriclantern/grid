@@ -1,22 +1,22 @@
-var time_setting = 500;
-var default_time = 500;
+var time_setting = 500; //ms per word
+var default_time = 500; //every message will stay up for at least this amount of ms
 
-dialogue_string = parseDialogue(dialogue_string);
 var dialogue_string = `
 bro: whoa . nice job bro / me: (thats the end of what i made so far :D)
 `;
+dialogue_string = parseDialogue(dialogue_string);
 
 // mini dialogue tutorial
 // bro: hi / me: hi 		-> bro and i talk at the same time
 // bro: hi /. me: hi 		-> i talk a moment after bro talks
 // bro: hi 					-> bro talks
-// /. 						-> pause, no messages on screen
-//							unlimited pauses, unlimited immediate messages
+// /. 						-> breaks, no messages on screen
+//							unlimited breakss, unlimited immediate messages
 
 function parseDialogue(string) { //turn readable dialogue string into usable array
-  let array = string.split(/\r?\n|\r/g);
+	let array = string.split(/\r?\n|\r/g);
 	array[0] = 1;
-  array.pop();
+	array.pop();
 
 	for (let i = 1; i < array.length; i++) {
 		array[i] = array[i].split(": ");
@@ -26,10 +26,10 @@ function parseDialogue(string) { //turn readable dialogue string into usable arr
 			for (let v = 0; v < array[i].length; v++) {
 				if (array[i][v].indexOf(" / ") > -1) {
 					array[i][v] = array[i][v].split(" / ");
-          array[i][v].splice(1, 0, 0);
-          array[i] = [].concat.apply([], array[i]); //flatten array
-          v++;
-          
+					array[i][v].splice(1, 0, 0);
+					array[i] = [].concat.apply([], array[i]); //flatten array
+					v++;
+
 				} else if (array[i][v].indexOf(" /.") > -1) {
 					let hde = array[i][v]; //hde : "i'm bro /.. ellie"
 					hde = hde.split(" /"); //hde : ["i'm bro", ".. ellie"]
@@ -37,7 +37,7 @@ function parseDialogue(string) { //turn readable dialogue string into usable arr
 					hde[1][0] = hde[1][0].length; //hde : ["i'm bro", [2, "ellie"]]
 					array[i][v] = [hde[0], ...hde[1]];
 					array[i] = [].concat.apply([], array[i]); //flatten array
-          v++;
+					v++;
 				}
 			}
 		}
@@ -49,25 +49,25 @@ function parseDialogue(string) { //turn readable dialogue string into usable arr
 var container = document.getElementById("container");
 
 function say(array) {
-	clearDialogue();
-
 	if (array[0] >= array.length) { return }
 
 	let line = array[array[0]]; //line: ["bro", "hi", 0, "ellie", "Hi!"]
-	let pause = 0;
+	let breaks = 0;
+
+	array[0]++
 
 	if (line.length > 1) {
-		for (let i = 0; i < line.length; i++) { //check for pauses
+		for (let i = 0; i < line.length; i++) { //check for breaks
 			if (!isNaN(line[i])) {
-				pause++;
+				breaks++;
 			}
 		}
 
-		if (pause > 0) { //multiple dialogue line
+		if (breaks > 0) { //multiple dialogue line
 			let longest_time = 0;
 			let longest = 0;
 			for (let i = 0; i < line.length; i += 3) { //check which dialogue is last to go
-				let linetime = (line[i].split(" ").length * time_setting) + default_time;
+				let linetime = (line[i+1].split(" ").length * time_setting) + default_time;
 				if (i>0) { linetime += line[i-1] }
 
 				if (linetime > longest_time) {
@@ -76,15 +76,15 @@ function say(array) {
 				}
 			}
 
-			for (let i = 0; i <= line.length; i += 3) { //print dialogue w/ pauses
-				if (i != longest) {
+			for (let i = 0; i <= line.length; i += 3) { //print dialogue w/ breaks
+				if (longest != i) {
 					var istrig = false;
 				} else {
 					var istrig = true;
 				}
 
 				if (i>0) {
-					if (line[i-1] > 0) { // pause before sending message
+					if (line[i-1] > 0) { // breaks before sending message
 						setTimeout(function() {
 							printDialogue(line[i], line[i+1], array, istrig);
 						}, line[i-1]*time_setting)
@@ -103,8 +103,6 @@ function say(array) {
 			say(array)
 		}, line[0]*time_setting)
 	}
-
-	array[0]++
 }
 
 function printDialogue(char, dialogue, array, istrigger) {
@@ -118,22 +116,19 @@ function printDialogue(char, dialogue, array, istrigger) {
 		
 	if (istrigger) {
 		setTimeout(function() {
-			say(array)
+			clearDialogue(char);
+			say(array);
 		}, time)
 	} else {
-		console.log(time);
 		setTimeout(function() { //suicide
-			let self = document.getElementById(char);
-			self.parentNode.removeChild(self);
+			clearDialogue(char)
 		}, time)
 	}
 
 	container.appendChild(box);
 }
 
-function clearDialogue() {
-	let d = document.getElementsByClassName("dialogue");
-	while (d[0]) {
-		d[0].parentNode.removeChild(d[0])
-	}
+function clearDialogue(char) {
+	let self = document.getElementById(char);
+	self.parentNode.removeChild(self);
 }
