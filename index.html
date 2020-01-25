@@ -162,7 +162,13 @@
 	}
 
 	function addAlpha(color) {
-		color += grid_alpha_value+')'
+		let alpha = grid_alpha_value;
+
+		if (color == c.hover) {
+			alpha = grid_alpha_value/2;
+		}
+
+		color += alpha+')'
 		return color;
 	}
 
