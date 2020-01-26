@@ -9,7 +9,7 @@ goal: get the helixes back in working order
 
 TO DO
 
-system layout (grid inputs)
+system layout (grid inputs) (what the heck do i call this)
 - x (failed & successful transmission)
 - h (helix info, eight galaxies)
 	[H1] [H2] [H3]		<- upper class/igsp-reserved priority helixes
@@ -39,7 +39,7 @@ npc
 	you can tune into every helix? you are tuned into H8 by default—that's what it was last tuned into
 - systems and npc interaction
 
-story layout
+story
 - endings
 	bad ending: you do nothing. everybody dies.
 - characters
