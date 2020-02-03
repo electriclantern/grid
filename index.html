@@ -4,9 +4,20 @@
 	<title>OXHI</title>
 
 	<style>
-		#canvas {
+		#canvaswrapper {
 			cursor: pointer;
 			-webkit-tap-highlight-color: rgba(0,0,0,0);
+			position: relative;
+			height: 390px;
+			width: 390px;
+		}
+		#canvas {
+			z-index: 1;
+			position: absolute;
+		}
+		#canvasunder {
+			z-index: 0;
+			position: absolute;
 		}
 
 		#container {
@@ -41,6 +52,11 @@
 			padding-bottom: 10px;
 			color: #1d2224;
 		}
+		#clock {
+			padding-bottom: 10px;
+			color: #1d2224;
+			font-family: monospace;
+		}
 
 		#intro {
 			background-color: #ddedec;
@@ -50,27 +66,64 @@
 			position: absolute;
 			padding: 30px;
 		}
+
+		.helix {
+			cursor: pointer;
+			background-color: rgb(195, 255, 193);
+			padding: 10px;
+			font-family: monospace;
+			width: 370px;
+			margin-top: 10px;
+		}
+		.helix:hover {
+			background-color: rgba(195, 255, 193, 0.5);
+		}
+
+		.galaxy {
+			cursor: pointer;
+			background-color: black;
+			color: white;
+		}
+		.galaxy:hover {
+			background-color: transparent;
+			color: black;
+		}
 	</style>
 </head>
 
 <body>
 	<div id="intro" onclick="clearIntro()" style="display:none">this site doesn't work very well on mobile browsers. audio's a big part of it but i haven't figured out a way to make it work properly :(<br /><br />that said, i've made it so that u can access what i've got so far if you really want to. tap here to begin.</div>
+
 	<div id="container">
 		<div id="mobileaid" style="display:none">OXHI</div>
-		<canvas id="canvas" width="390" height="390"></canvas>
+		<div id="clock" style="opacity:0">00:00</div>
+		<div id="canvaswrapper">
+			<canvas id="canvasunder" width="390" height="390"></canvas>
+			<canvas id="canvas" width="390" height="390"></canvas>
+		</div>
 		<div id="bro" class="dialogue">
 			hey . can u figure this out . i dont know what this thing does
 		</div>
+
+		<div id="h380-p0" class="helix" style="display:none" onclick="menu_helix(0)"></div>
+		<div id="h380-p1" class="helix" style="display:none" onclick="menu_helix(1)"></div>
+		<div id="h380-p2" class="helix" style="display:none" onclick="menu_helix(2)"></div>
+		<div id="h360-0" class="helix" style="display:none" onclick="menu_helix(3)"></div>
+		<div id="h360-1" class="helix" style="display:none" onclick="menu_helix(4)"></div>
+		<div id="h290-0" class="helix" style="display:none" onclick="menu_helix(5)"></div>
+		<div id="h290-1" class="helix" style="display:none" onclick="menu_helix(6)"></div>
+		<div id="h290-2" class="helix" style="display:none" onclick="menu_helix(7)"></div>
 	</div>
 </body>
 
 <script src="js/input.js"></script>
 <script src="js/sfx.js"></script>
 <script src="js/dialogue.js"></script>
-<script src="js/npc.js"></script>
+<script src="js/loops.js"></script>
 <script>
-	var canvas = document.querySelector("canvas");
-	var bro = document.getElementById("bro");
+	var canvas = document.getElementById("canvas");
+	var canvasunder = document.getElementById("canvasunder");
+	var clock = document.getElementById("clock");
 
 	var c = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 	c.size = canvas.width / 3;
@@ -80,9 +133,9 @@
 	var grid_alpha_value = 1;
 
 	c.color = 'rgba(221, 237, 236,';
-	c.color_o = 'rgba(221, 237, 236,'; //blue
-	c.color_x = 'rgba(244, 194, 75,'; //gold?
-	c.color_h = 'rgba(195, 255, 193,'; //green
+	c.color_x = 'rgba(221, 237, 236,'; //blue
+	c.color_h = 'rgba(244, 194, 75,'; //gold?
+	c.color_o = 'rgba(195, 255, 193,'; //green
 	c.color_i = 'rgba(255, 230, 214,'; //reddish pinkish
 
 	var cstate = {
@@ -100,9 +153,7 @@
 	var pos = {};
 	var note_to_artist = false;
 
-	function draw() {		
-		//draw behind
-
+	function draw() {
 		//draw control grid
 		let step = 0;
 		let x, y;
@@ -140,6 +191,10 @@
 				drawTile(i, color)
 			}
 		}
+
+		if (document.title == "helix_watch") {
+			drawTile(4, 'white');
+		}
 	}
 
 	function drawTile(tile, color) {
@@ -156,6 +211,28 @@
 		c[tile].fillStyle = color;
 
 		c[tile].fillRect(x, y, c.size, c.size);
+	}
+
+	function drawTileText(tile, text) {
+		let step = 0;
+		let x, y;
+
+		if (tile < 4) {
+			let t = helix[tile].draw;
+		} else {
+			let t = helix[tile-1].draw;
+		}
+
+		t = canvasunder.getContext("2d");
+
+		if (tile >= 3 && tile <= 5) { step = 1 }
+		else if (tile >= 6 && tile <= 8) { step = 2 }
+		x = tile*c.size-canvas.width*step;
+		y = step*c.size;
+
+		t.font = "12px monospace";
+		t.fillStyle = 'black';
+		t.fillText(text, x, y+c.size-4);
 	}
 
 	var hover;
@@ -213,7 +290,7 @@
 			}
 		}
 
-		draw();
+		input();
 	}
 
 	function keypress(e) {
@@ -221,17 +298,15 @@
 
 		let key = e.keyCode;
 
-		if (key == 36 || key == 49 || key == 103) { cstate[0] = !cstate[0]; sfx_tap() }
-		if (key == 38 || key == 50 || key == 104) { cstate[1] = !cstate[1]; sfx_tap() }
-		if (key == 33 || key == 51 || key == 105) { cstate[2] = !cstate[2]; sfx_tap() }
-		if (key == 37 || key == 52 || key == 100) { cstate[3] = !cstate[3]; sfx_tap() }
-		if (key == 12 || key == 53 || key == 101) { cstate[4] = !cstate[4]; sfx_tap() }
-		if (key == 39 || key == 54 || key == 102) { cstate[5] = !cstate[5]; sfx_tap() }
-		if (key == 35 || key == 55 || key == 97) { cstate[6] = !cstate[6]; sfx_tap() }
-		if (key == 40 || key == 56 || key == 98) { cstate[7] = !cstate[7]; sfx_tap() }
-		if (key == 34 || key == 57 || key == 99) { cstate[8] = !cstate[8]; sfx_tap() }
-
-		draw();
+		if (key == 36 || key == 49 || key == 103) { cstate[0] = !cstate[0]; sfx_tap(); input() }
+		if (key == 38 || key == 50 || key == 104) { cstate[1] = !cstate[1]; sfx_tap(); input() }
+		if (key == 33 || key == 51 || key == 105) { cstate[2] = !cstate[2]; sfx_tap(); input() }
+		if (key == 37 || key == 52 || key == 100) { cstate[3] = !cstate[3]; sfx_tap(); input() }
+		if (key == 12 || key == 53 || key == 101) { cstate[4] = !cstate[4]; sfx_tap(); input() }
+		if (key == 39 || key == 54 || key == 102) { cstate[5] = !cstate[5]; sfx_tap(); input() }
+		if (key == 35 || key == 55 || key == 97) { cstate[6] = !cstate[6]; sfx_tap(); input() }
+		if (key == 40 || key == 56 || key == 98) { cstate[7] = !cstate[7]; sfx_tap(); input() }
+		if (key == 34 || key == 57 || key == 99) { cstate[8] = !cstate[8]; sfx_tap(); input() }
 	}
 
 	document.addEventListener('mousemove', function(e) {
@@ -246,19 +321,6 @@
 	document.addEventListener('keyup', function(e) {
 		keypress(e)
 	});
-
-	function animate() {
-		requestAnimationFrame(animate);
-
-		canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
-
-		input();
-		draw();
-
-		if (touchDevice) { mobileaid.textContent = document.title }
-	}
-
-	animate();
 
 	//mobile support
 	var touchDevice = (navigator.maxTouchPoints || 'ontouchstart' in document.documentElement);
@@ -281,6 +343,17 @@
 		document.getElementById("intro").style.display = "none";
 		container.style.display = "block";
 	}
+
+	function animate() {
+		requestAnimationFrame(animate);
+
+		canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
+		draw();
+
+		if (touchDevice) { mobileaid.textContent = document.title }
+	}
+
+	animate();
 
 </script>
 
