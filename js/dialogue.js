@@ -1,10 +1,16 @@
 var time_setting = 500; //ms per word
 var default_time = 500; //every message will stay up for at least this amount of ms
 
+var Dx_transmission_failed = `
+system: Transmitting error messages.
+system: Transmitting error messages..
+system: Transmitting error messages...
+system: Transmission failed.
+`;
+
 var dialogue_string = `
 bro: whoa . nice job bro / me: (thats the end of what i made so far :D)
 `;
-dialogue_string = parseDialogue(dialogue_string);
 
 // mini dialogue tutorial
 // bro: hi / me: hi 		-> bro and i talk at the same time
@@ -48,13 +54,23 @@ function parseDialogue(string) { //turn readable dialogue string into usable arr
 
 var container = document.getElementById("container");
 
-function say(array) {
+function say(dialogue) {
+	if (typeof dialogue == "string") {
+		dialogue = parseDialogue(dialogue)
+	} else {
+		dialogue[0] = 0
+	}
+
+	speak(dialogue);
+}
+
+function speak(array) {
 	if (array[0] >= array.length) { return }
 
 	let line = array[array[0]]; //line: ["bro", "hi", 0, "ellie", "Hi!"]
 	let breaks = 0;
 
-	array[0]++
+	array[0]++;
 
 	if (line.length > 1) {
 		for (let i = 0; i < line.length; i++) { //check for breaks
@@ -100,7 +116,7 @@ function say(array) {
 		}
 	} else { // line is a break
 		setTimeout(function() {
-			say(array)
+			speak(array)
 		}, line[0]*time_setting)
 	}
 }
@@ -117,7 +133,7 @@ function printDialogue(char, dialogue, array, istrigger) {
 	if (istrigger) {
 		setTimeout(function() {
 			clearDialogue(char);
-			say(array);
+			speak(array);
 		}, time)
 	} else {
 		setTimeout(function() { //suicide
@@ -129,6 +145,16 @@ function printDialogue(char, dialogue, array, istrigger) {
 }
 
 function clearDialogue(char) {
-	let self = document.getElementById(char);
-	self.parentNode.removeChild(self);
+	if (char) {
+		if (document.getElementById(char)) {
+			let self = document.getElementById(char);
+			self.parentNode.removeChild(self);
+		}
+	} else {
+		let D = document.getElementsByClassName('dialogue');
+
+		while (D[0]) {
+			D[0].parentNode.removeChild(D[0])
+		}
+	}
 }

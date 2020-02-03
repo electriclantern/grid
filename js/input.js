@@ -15,27 +15,33 @@ var s = {
 
 function input() {
 	if (document.title.toLowerCase() != "oxhi") {
+
+		// GLOBAL COMMANDS
 		if (isShape(s.O)) {
-			menu('O')
+			menu('O');
 		}
 
+		// MAIN
 		if (document.title == "main" || document.title == "welcome.") {
 			if (isShape(s.X)) {
-				menu('X')
+				menu('X');
+				//let's have an animation that looks like squiggly lines wiggling across the screen
+				//to indicate that a transmission is being attempted
 			}
 
 			else if (isShape(s.H)) {
 				menu('H');
-				//let's have an animation that looks like squiggly lines wiggling across the screen
-				//to indicate that a transmission is being attempted
 			}
 
 			else if (isShape(s.I)) {
 				menu('I')
 			}
 		}
+
+		// 
 	}
 
+	// GAME INTRO
 	else if (document.title.toLowerCase() == "oxhi") {
 		if (isShape(s.O)) {
 			title("O", "o")
@@ -85,10 +91,12 @@ function title(a, b) {
 }
 function menu(letter) {
 	if (letter == 'O') {
+		c.selected = 'rgba(255, 207, 48,';
 		document.title = "main";
 		c.color = c.color_o
 	}
 	else if (letter == 'H') {
+		grid_alpha_value = 0.5;
 		document.title = "helix_watch";
 		c.color = c.color_h
 	}
@@ -97,6 +105,8 @@ function menu(letter) {
 		c.color = c.color_i
 	}
 	else if (letter == 'X') {
+		c.selected = 'rgba(255, 255, 255,';
+		say(Dx_transmission_failed);
 		document.title = "hq";
 		c.color = c.color_x
 	}

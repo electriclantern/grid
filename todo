@@ -1,0 +1,55 @@
+you are an amnesiac AI managing a broken intergalactic transportation system.
+
+gameplay: resource management, hitman-like open-ended strategy, uncoverable mysteries in the game world
+
+aesthetic: organic. scrappy. dry. light.
+
+goal: get the helixes back in working order
+
+
+TO DO
+
+system layout (grid inputs) (what the heck do i call this)
+v x (failed & successful transmission)
+- h (helix info, eight galaxies)
+	[H1] [H2] [H3]		<- upper class/igsp-reserved priority helixes
+	[H4] [  ] [H5]		<- normal passenger helixes
+	[H6] [H7] [H8]		<- cargo helixes
+
+	clicking on any one of the helixes shows you the current galaxy they're at
+	clicking again sends you to the helix info & control
+	clicking on the galaxy sends you to galaxies menu. click on one to see which helixes are in it
+- i (systems info, preferences)
+	log (dates, helix stops, .alerts)
+	stasis (go to pre-title screen)
+	model info (info on the ai. who created it; credits. when it was last updated)
+	preferences
+
+npc
+- helix loops
+	priority helixes go directly to necessary location without stopping
+	every ten minutes passenger helixes stop at a galaxy for a minute
+	every ten minutes cargo helixes stop for fifteen minutes
+	(5s = 1s in game time)
+- relevant npc designs, their loops & reactions
+	revolutionaries in the top priority helix
+	dangerous creatures & their warden being transported in cargo helixes
+- helix-specific dialogue loops & general dialogue loops
+	.alert dialogue that pops up as messages from the system
+	you can tune into every helix? you are tuned into H8 by default—that's what it was last tuned into
+- systems and npc interaction
+
+story
+- endings
+	bad ending: you do nothing. everybody dies.
+- characters
+- pacing; a variety in gameplay, a goal at all times
+
+polishing
+- sfx & music (make taps sound nicer)
+- solidify general aesthetic
+- animations
+- color palette
+- character voices (vocal chops)
+- autosave
+- size & cross platform accessibility
